@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Ghostpost</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button name="Boast" type="submit">Sort Boast</button>
+        <button name="Roast" type="submit">Sort Roast</button>
+        <button name="Date" type="submit">Sort Creation Date</button>
+        <button name="Score" type="submit">Sort Vote Score</button>
+    </form>
+    {% for post in ghostpost %}
+    <ul style="list-style: none">
+    <li>
+        <h2>
+            {{ post }} |
+            {% if post.ghostpost_choice %}
+            Boast
+            {% else %}
+            Roast
+            {% endif %}
+            | {{ post.upvotes }} Upvotes | {{ post.downvotes }} Downvotes
+
+            <form action="upvote/{{post.id}}/" method="post">
+            {% csrf_token %}
+            <button name="Upvote" type="submit">Upvote</button>
+            </form>
+            <form action="downvote/{{post.id}}/" method="post">
+            {% csrf_token %}
+            <button name="Downvote" type="submit">Downvote</button>
+            </form>
+        </h2>
+    </li>
+    </ul>
+    {% endfor %}
+    <h4><a href="addghostpost/">Submit a Ghostpost</a></h4>
+</body>
+</html>
